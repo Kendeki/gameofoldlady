@@ -1,4 +1,5 @@
 conditions = [[" X", " X", " X"], [" O", " O", " O"]]
+almost = [["  ", " X", " X"], [" X", "  ", " X"], [" X", " X", "  "]]
 
 def diagonal(matriz):
   diagonalEsquerda = []
@@ -43,10 +44,8 @@ def win(matriz):
     if j in conditions:
       return True
 
-  for m in dig:
-    if m in conditions:
-      return True
-
+  return any(k in conditions for k in dig)
+  
 def empate(matriz):
   all = True
 
@@ -55,3 +54,22 @@ def empate(matriz):
       all = False
 
   return all
+
+def close(matriz):
+  dig = diagonal(matriz)
+  col = colunas(matriz)
+  lin = linhas(matriz)
+  
+  for i in colunas(matriz):
+    if i in almost:
+      return (almost.index(i), col.index(i), int(0))
+
+  for j in linhas(matriz):
+    if j in almost:
+      return (almost.index(j), lin.index(j), int(1))
+
+  for k in dig:
+    if k in almost:
+      return (almost.index(k), dig.index(k), int(2))
+      
+  return None
